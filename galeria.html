@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Galería · Restaurante La Esquina · La Plata</title>
+  <meta name="description" content="Mirá nuestras especialidades: pizzas, pastas, parrilla y el ambiente de Restaurante La Esquina en La Plata." />
+  <link rel="canonical" href="/galeria.html" />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+          colors: {
+            brand: {
+              bg: '#1a120b',
+              soft: '#2b1d16',
+              softer: '#372418',
+              border: '#3a2a1f',
+              orange: '#f97316',
+              glow: '#fb923c',
+              text: '#f4ead8',
+              muted: '#b8a999',
+            },
+            whatsapp: '#25d366',
+          },
+          boxShadow: {
+            warm: '0 20px 60px -20px rgba(249, 115, 22, 0.45)',
+            card: '0 10px 30px -15px rgba(0, 0, 0, 0.6)',
+          },
+          backgroundImage: {
+            'gradient-orange': 'linear-gradient(135deg, #f97316 0%, #fb923c 100%)',
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: #1a120b; color: #f4ead8; -webkit-font-smoothing: antialiased; }
+    .text-gradient-orange { background: linear-gradient(135deg, #f97316, #fb923c); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    
+    /* Fade-in animations */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .btn-hover {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .btn-hover:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -10px rgba(249, 115, 22, 0.5);
+    }
+    
+    /* Mobile menu */
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100vh;
+      background: #1a120b;
+      transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 40;
+      overflow-y: auto;
+    }
+    .mobile-menu.active {
+      left: 0;
+    }
+    .mobile-menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(26, 18, 11, 0.9);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+      z-index: 30;
+    }
+    .mobile-menu-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+      padding: 4px;
+      position: relative;
+      width: 32px;
+      height: 24px;
+    }
+    .hamburger span {
+      width: 24px;
+      height: 2px;
+      background: #f4ead8;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: absolute;
+      left: 4px;
+    }
+    .hamburger span:nth-child(1) {
+      top: 0;
+    }
+    .hamburger span:nth-child(2) {
+      top: 11px;
+    }
+    .hamburger span:nth-child(3) {
+      top: 22px;
+    }
+    .hamburger.active span:nth-child(1) {
+      top: 11px;
+      transform: rotate(45deg);
+    }
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.active span:nth-child(3) {
+      top: 11px;
+      transform: rotate(-45deg);
+    }
+    @media (max-width: 767px) {
+      .hamburger {
+        display: flex;
+      }
+    }
+  </style>
+</head>
+<body class="bg-brand-bg text-brand-text">
+
+  <!-- NAV -->
+  <header class="fixed top-0 inset-x-0 z-50 backdrop-blur-md bg-brand-bg/70 border-b border-brand-border/60">
+    <div class="max-w-6xl mx-auto flex h-16 items-center justify-between px-4">
+      <!-- Logo -->
+      <a href="index.html" class="flex items-center gap-2">
+        <span class="font-bold text-xl tracking-tight text-brand-orange" style="font-weight: 700;">Restaurante</span>
+        <span class="font-semibold tracking-tight text-white" style="font-weight: 700;">Rémy</span>
+      </a>
+      
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex items-center gap-8 text-sm text-brand-muted">
+        <a href="index.html" class="hover:text-brand-text transition">Inicio</a>
+        <a href="menu.html" class="hover:text-brand-text transition">Menú</a>
+        <a href="galeria.html" class="text-brand-text font-medium">Galería</a>
+        <a href="ubicacion.html" class="hover:text-brand-text transition">Ubicación</a>
+      </nav>
+      
+      <!-- Desktop WhatsApp Button -->
+      <a href="https://wa.me/5492211234567" target="_blank" rel="noopener"
+         class="hidden md:inline-flex items-center gap-2 rounded-full bg-gradient-orange px-4 py-2 text-sm font-semibold text-brand-bg shadow-warm hover:opacity-95 transition">
+        <svg viewBox="0 0 24 24" fill="currentColor" class="h-4 w-4"><path d="M20.46 3.54A11.82 11.82 0 0012.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 005.69 1.45h.01c6.55 0 11.89-5.34 11.89-11.89 0-3.18-1.24-6.17-3.49-8.37zM12.05 21.79h-.01a9.87 9.87 0 01-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 01-1.51-5.27c0-5.45 4.43-9.88 9.89-9.88 2.64 0 5.12 1.03 6.99 2.9a9.83 9.83 0 012.89 6.99c0 5.45-4.43 9.89-9.88 9.89zm5.42-7.41c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15s-.77.97-.94 1.16c-.17.2-.35.22-.64.08-.3-.15-1.26-.47-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37s-1.04 1.02-1.04 2.48 1.07 2.88 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/></svg>
+        Pedir
+      </a>
+      
+      <!-- Mobile Hamburger Menu -->
+      <div class="hamburger md:hidden" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </header>
+  
+  <!-- Mobile Menu -->
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+  <nav class="mobile-menu" id="mobileMenu">
+    <div class="p-6">
+      <!-- Close button -->
+      <div class="flex justify-end mb-6">
+        <button class="hamburger active" id="closeMenu" style="position: relative; width: 32px; height: 24px;">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+      
+      <!-- Navigation links -->
+      <div class="space-y-6">
+        <a href="index.html" class="block text-brand-text text-lg hover:text-brand-orange transition">Inicio</a>
+        <a href="menu.html" class="block text-brand-text text-lg hover:text-brand-orange transition">Menú</a>
+        <a href="galeria.html" class="block text-brand-text font-medium text-lg hover:text-brand-orange transition">Galería</a>
+        <a href="ubicacion.html" class="block text-brand-text text-lg hover:text-brand-orange transition">Ubicación</a>
+      </div>
+      
+      <!-- WhatsApp button in mobile menu -->
+      <div class="mt-8 pt-6 border-t border-brand-border/60">
+        <a href="https://wa.me/5492211234567" target="_blank" rel="noopener"
+           class="w-full inline-flex items-center justify-center gap-2 rounded-full bg-gradient-orange px-6 py-3 font-semibold text-brand-bg shadow-warm hover:opacity-95 transition">
+          <svg viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5"><path d="M20.46 3.54A11.82 11.82 0 0012.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 005.69 1.45h.01c6.55 0 11.89-5.34 11.89-11.89 0-3.18-1.24-6.17-3.49-8.37zM12.05 21.79h-.01a9.87 9.87 0 01-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 01-1.51-5.27c0-5.45 4.43-9.88 9.89-9.88 2.64 0 5.12 1.03 6.99 2.9a9.83 9.83 0 012.89 6.99c0 5.45-4.43 9.89-9.88 9.89zm5.42-7.41c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15s-.77.97-.94 1.16c-.17.2-.35.22-.64.08-.3-.15-1.26-.47-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37s-1.04 1.02-1.04 2.48 1.07 2.88 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/></svg>
+          Pedir por WhatsApp
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO GALLERY -->
+  <section class="relative pt-32 pb-16">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="max-w-2xl">
+        <p class="text-sm font-semibold uppercase tracking-widest text-brand-orange">Galería</p>
+        <h1 class="mt-2 text-4xl md:text-6xl font-extrabold tracking-tight">Lo que vas a <span class="text-gradient-orange">encontrar</span></h1>
+        <p class="mt-4 text-brand-muted">Un vistazo a nuestras especialidades y al ambiente que te esperan.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="max-w-6xl mx-auto px-4 pb-20 md:pb-28">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+      <div class="overflow-hidden rounded-2xl shadow-card md:col-span-2 md:row-span-2 aspect-square fade-in"><img src="../assets/gallery-pizza.jpg" alt="Pizza margarita" class="h-full w-full object-cover hover:scale-105 transition duration-700" /></div>
+      <div class="overflow-hidden rounded-2xl shadow-card aspect-square fade-in"><img src="../assets/gallery-pasta.jpg" alt="Pasta fileto" class="h-full w-full object-cover hover:scale-105 transition duration-700" /></div>
+      <div class="overflow-hidden rounded-2xl shadow-card aspect-square fade-in"><img src="../assets/gallery-empanadas.jpg" alt="Empanadas" class="h-full w-full object-cover hover:scale-105 transition duration-700" /></div>
+      <div class="overflow-hidden rounded-2xl shadow-card md:col-span-2 aspect-square md:aspect-[2/1] fade-in"><img src="../assets/gallery-interior.jpg" alt="Interior" class="h-full w-full object-cover hover:scale-105 transition duration-700" /></div>
+      <div class="overflow-hidden rounded-2xl shadow-card aspect-square fade-in"><img src="../assets/gallery-provoleta.jpg" alt="Provoleta" class="h-full w-full object-cover hover:scale-105 transition duration-700" /></div>
+      <div class="overflow-hidden rounded-2xl shadow-card aspect-square fade-in"><img src="../assets/gallery-wine.jpg" alt="Malbec" class="h-full w-full object-cover hover:scale-105 transition duration-700" /></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-brand-border bg-brand-soft/60">
+    <div class="max-w-6xl mx-auto px-4 py-10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-brand-muted">
+      <p>© 2026 Restaurante La Esquina · La Plata, Argentina</p>
+      <p>Calle 50 N° 765 · +54 9 221 123-4567</p>
+    </div>
+  </footer>
+
+  <!-- Floating WhatsApp -->
+  <a href="https://wa.me/5492211234567" target="_blank" rel="noopener" aria-label="WhatsApp"
+     class="fixed bottom-5 right-5 z-50 grid place-items-center h-14 w-14 rounded-full bg-whatsapp text-white shadow-warm hover:scale-110 transition">
+    <svg viewBox="0 0 24 24" fill="currentColor" class="h-7 w-7"><path d="M20.46 3.54A11.82 11.82 0 0012.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 005.69 1.45h.01c6.55 0 11.89-5.34 11.89-11.89 0-3.18-1.24-6.17-3.49-8.37zM17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15s-.77.97-.94 1.16c-.17.2-.35.22-.64.08-.3-.15-1.26-.47-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37s-1.04 1.02-1.04 2.48 1.07 2.88 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/></svg>
+  </a>
+
+  <script>
+    // Scroll animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    // Observe all fade-in elements
+    document.addEventListener('DOMContentLoaded', () => {
+      const fadeElements = document.querySelectorAll('.fade-in');
+      fadeElements.forEach((el) => {
+        el.style.transitionDelay = '0s';
+        observer.observe(el);
+      });
+      
+      // Mobile menu functionality
+      const hamburger = document.getElementById('hamburger');
+      const closeMenu = document.getElementById('closeMenu');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+      
+      function toggleMobileMenu() {
+        hamburger.classList.toggle('active');
+        closeMenu.classList.toggle('active');
+        mobileMenu.classList.toggle('active');
+        mobileMenuOverlay.classList.toggle('active');
+        
+        // Prevent body scroll when menu is open
+        if (mobileMenu.classList.contains('active')) {
+          document.body.style.overflow = 'hidden';
+        } else {
+          document.body.style.overflow = '';
+        }
+      }
+      
+      hamburger.addEventListener('click', toggleMobileMenu);
+      closeMenu.addEventListener('click', toggleMobileMenu);
+      mobileMenuOverlay.addEventListener('click', toggleMobileMenu);
+      
+      // Close menu when clicking on links
+      const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+      mobileMenuLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          hamburger.classList.remove('active');
+          closeMenu.classList.remove('active');
+          mobileMenu.classList.remove('active');
+          mobileMenuOverlay.classList.remove('active');
+          document.body.style.overflow = '';
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Restaurante La Esquina · Comida casera en La Plata</title>
+  <meta name="description" content="Comida casera, pizzas, pastas y parrilla en La Plata. Pedí por WhatsApp o reservá tu mesa en Restaurante La Esquina." />
+  <link rel="canonical" href="/" />
+  <meta property="og:title" content="Restaurante La Esquina · La Plata" />
+  <meta property="og:description" content="Comida casera que se disfruta de verdad." />
+  <meta property="og:type" content="restaurant" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+          colors: {
+            brand: {
+              bg: '#1a120b',
+              soft: '#2b1d16',
+              softer: '#372418',
+              border: '#3a2a1f',
+              orange: '#f97316',
+              glow: '#fb923c',
+              text: '#f4ead8',
+              muted: '#b8a999',
+            },
+            whatsapp: '#25d366',
+          },
+          boxShadow: {
+            warm: '0 20px 60px -20px rgba(249, 115, 22, 0.45)',
+            card: '0 10px 30px -15px rgba(0, 0, 0, 0.6)',
+          },
+          backgroundImage: {
+            'gradient-orange': 'linear-gradient(135deg, #f97316 0%, #fb923c 100%)',
+            'gradient-hero': 'linear-gradient(180deg, rgba(26,18,11,0.4) 0%, rgba(26,18,11,0.85) 70%, #1a120b 100%)',
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: #1a120b; color: #f4ead8; -webkit-font-smoothing: antialiased; }
+    .text-gradient-orange { background: linear-gradient(135deg, #f97316, #fb923c); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .pulse-dot { animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+    .menu-dot { background-image: radial-gradient(circle, #5a4332 1px, transparent 1px); background-size: 8px 1px; background-repeat: repeat-x; background-position: bottom; }
+    
+    /* Fade-in animations */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .btn-hover {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .btn-hover:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -10px rgba(249, 115, 22, 0.5);
+    }
+    
+    /* Mobile menu */
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100vh;
+      background: #1a120b;
+      transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 40;
+      overflow-y: auto;
+    }
+    .mobile-menu.active {
+      left: 0;
+    }
+    .mobile-menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(26, 18, 11, 0.9);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+      z-index: 30;
+    }
+    .mobile-menu-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+      padding: 4px;
+      position: relative;
+      width: 32px;
+      height: 24px;
+    }
+    .hamburger span {
+      width: 24px;
+      height: 2px;
+      background: #f4ead8;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: absolute;
+      left: 4px;
+    }
+    .hamburger span:nth-child(1) {
+      top: 0;
+    }
+    .hamburger span:nth-child(2) {
+      top: 11px;
+    }
+    .hamburger span:nth-child(3) {
+      top: 22px;
+    }
+    .hamburger.active span:nth-child(1) {
+      top: 11px;
+      transform: rotate(45deg);
+    }
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.active span:nth-child(3) {
+      top: 11px;
+      transform: rotate(-45deg);
+    }
+    @media (max-width: 767px) {
+      .hamburger {
+        display: flex;
+      }
+    }
+  </style>
+</head>
+<body class="bg-brand-bg text-brand-text">
+
+  <!-- NAV -->
+  <header class="fixed top-0 inset-x-0 z-50 backdrop-blur-md bg-brand-bg/70 border-b border-brand-border/60">
+    <div class="max-w-6xl mx-auto flex h-16 items-center justify-between px-4">
+      <!-- Logo -->
+      <a href="#top" class="flex items-center gap-2">
+        <span class="font-bold text-xl tracking-tight text-brand-orange" style="font-weight: 700;">Restaurante</span>
+        <span class="font-semibold tracking-tight text-white" style="font-weight: 700;">Rémy</span>
+      </a>
+      
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex items-center gap-8 text-sm text-brand-muted">
+        <a href="index.html" class="text-brand-text font-medium">Inicio</a>
+        <a href="menu.html" class="hover:text-brand-text transition">Menú</a>
+        <a href="galeria.html" class="hover:text-brand-text transition">Galería</a>
+        <a href="ubicacion.html" class="hover:text-brand-text transition">Ubicación</a>
+      </nav>
+      
+      <!-- Desktop WhatsApp Button -->
+      <a href="https://wa.me/5492211234567" target="_blank" rel="noopener"
+         class="hidden md:inline-flex items-center gap-2 rounded-full bg-gradient-orange px-4 py-2 text-sm font-semibold text-brand-bg shadow-warm hover:opacity-95 transition">
+        <svg viewBox="0 0 24 24" fill="currentColor" class="h-4 w-4"><path d="M20.46 3.54A11.82 11.82 0 0012.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 005.69 1.45h.01c6.55 0 11.89-5.34 11.89-11.89 0-3.18-1.24-6.17-3.49-8.37zM12.05 21.79h-.01a9.87 9.87 0 01-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 01-1.51-5.27c0-5.45 4.43-9.88 9.89-9.88 2.64 0 5.12 1.03 6.99 2.9a9.83 9.83 0 012.89 6.99c0 5.45-4.43 9.89-9.88 9.89zm5.42-7.41c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15s-.77.97-.94 1.16c-.17.2-.35.22-.64.08-.3-.15-1.26-.47-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37s-1.04 1.02-1.04 2.48 1.07 2.88 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/></svg>
+        Pedir
+      </a>
+      
+      <!-- Mobile Hamburger Menu -->
+      <div class="hamburger md:hidden" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </header>
+  
+  <!-- Mobile Menu -->
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+  <nav class="mobile-menu" id="mobileMenu">
+    <div class="p-6">
+      <!-- Close button -->
+      <div class="flex justify-end mb-6">
+        <button class="hamburger active" id="closeMenu" style="position: relative; width: 32px; height: 24px;">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+      
+      <!-- Navigation links -->
+      <div class="space-y-6">
+        <a href="index.html" class="block text-brand-text font-medium text-lg hover:text-brand-orange transition">Inicio</a>
+        <a href="menu.html" class="block text-brand-text text-lg hover:text-brand-orange transition">Menú</a>
+        <a href="galeria.html" class="block text-brand-text text-lg hover:text-brand-orange transition">Galería</a>
+        <a href="ubicacion.html" class="block text-brand-text text-lg hover:text-brand-orange transition">Ubicación</a>
+      </div>
+      
+      <!-- WhatsApp button in mobile menu -->
+      <div class="mt-8 pt-6 border-t border-brand-border/60">
+        <a href="https://wa.me/5492211234567" target="_blank" rel="noopener"
+           class="w-full inline-flex items-center justify-center gap-2 rounded-full bg-gradient-orange px-6 py-3 font-semibold text-brand-bg shadow-warm hover:opacity-95 transition">
+          <svg viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5"><path d="M20.46 3.54A11.82 11.82 0 0012.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 005.69 1.45h.01c6.55 0 11.89-5.34 11.89-11.89 0-3.18-1.24-6.17-3.49-8.37zM12.05 21.79h-.01a9.87 9.87 0 01-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 01-1.51-5.27c0-5.45 4.43-9.88 9.89-9.88 2.64 0 5.12 1.03 6.99 2.9a9.83 9.83 0 012.89 6.99c0 5.45-4.43 9.89-9.88 9.89zm5.42-7.41c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15s-.77.97-.94 1.16c-.17.2-.35.22-.64.08-.3-.15-1.26-.47-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37s-1.04 1.02-1.04 2.48 1.07 2.88 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/></svg>
+          Pedir por WhatsApp
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="top" class="relative pt-16">
+    <div class="absolute inset-0 -z-10">
+      <img src="../assets/hero-dish.jpg" alt="Bife de chorizo en La Esquina, La Plata" class="h-full w-full object-cover" />
+      <div class="absolute inset-0 bg-gradient-hero"></div>
+    </div>
+    <div class="max-w-6xl mx-auto px-4 min-h-[88vh] flex flex-col justify-end pb-16 md:pb-24">
+      <div class="max-w-2xl fade-in">
+        <div class="flex flex-wrap gap-3 mb-5">
+          <span class="inline-flex items-center gap-2 rounded-full border border-brand-border/70 bg-brand-bg/40 px-3 py-1 text-xs font-medium text-brand-muted backdrop-blur">
+            <span class="h-1.5 w-1.5 rounded-full bg-brand-orange pulse-dot"></span>
+            Abierto hoy
+          </span>
+          <span class="inline-flex items-center gap-2 rounded-full border border-brand-border/70 bg-brand-bg/40 px-3 py-1 text-xs font-medium text-brand-muted backdrop-blur">
+            <svg viewBox="0 0 24 24" fill="currentColor" class="h-3 w-3 text-brand-orange"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+            La Plata, Buenos Aires
+          </span>
+          <span class="inline-flex items-center gap-2 rounded-full border border-brand-border/70 bg-brand-bg/40 px-3 py-1 text-xs font-medium text-brand-muted backdrop-blur">
+            <svg viewBox="0 0 24 24" fill="currentColor" class="h-3 w-3 text-brand-orange"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            4.9 en Google
+          </span>
+        </div>
+        <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.05]">
+          Comida casera que se <span class="text-gradient-orange">disfruta de verdad</span>
+        </h1>
+        <p class="mt-5 text-lg text-brand-muted max-w-xl">
+          Pedí fácil o reservá tu mesa en segundos. Ingredientes frescos, recetas de siempre y la atención de un lugar que ya es de barrio.
+        </p>
+        <div class="mt-8 flex flex-col sm:flex-row gap-3">
+          <a href="https://wa.me/5492211234567" target="_blank" rel="noopener"
+             class="btn-hover inline-flex items-center justify-center gap-2 rounded-full bg-gradient-orange px-6 py-3.5 font-semibold text-brand-bg shadow-warm hover:scale-[1.02] transition">
+            <svg viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5"><path d="M20.46 3.54A11.82 11.82 0 0012.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 005.69 1.45h.01c6.55 0 11.89-5.34 11.89-11.89 0-3.18-1.24-6.17-3.49-8.37z"/></svg>
+            Pedir por WhatsApp
+          </a>
+          <a href="menu.html" class="btn-hover inline-flex items-center justify-center gap-2 rounded-full border border-brand-border bg-brand-bg/50 px-6 py-3.5 font-semibold hover:bg-brand-soft transition">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" class="h-5 w-5"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            Ver menú
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST -->
+  <section class="border-y border-brand-border/60 bg-brand-soft/40">
+    <div class="max-w-6xl mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="flex items-start gap-4">
+        <div class="grid place-items-center h-12 w-12 rounded-xl bg-brand-softer text-2xl text-brand-orange">
+          <svg viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+        </div>
+        <div><h3 class="font-semibold">Ingredientes frescos</h3><p class="text-sm text-brand-muted mt-1">Compramos cada mañana en mercados locales de La Plata.</p></div>
+      </div>
+      <div class="flex items-start gap-4">
+        <div class="grid place-items-center h-12 w-12 rounded-xl bg-brand-softer text-2xl text-brand-orange">
+          <svg viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+        </div>
+        <div><h3 class="font-semibold">Preparación al momento</h3><p class="text-sm text-brand-muted mt-1">Cocinamos cada plato cuando lo pedís. Nada congelado.</p></div>
+      </div>
+      <div class="flex items-start gap-4">
+        <div class="grid place-items-center h-12 w-12 rounded-xl bg-brand-softer text-2xl text-brand-orange">
+          <svg viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+        </div>
+        <div><h3 class="font-semibold">Excelente atención</h3><p class="text-sm text-brand-muted mt-1">Un equipo que te trata como en casa, en el salón o por WhatsApp.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE NOSOTROS -->
+  <section class="max-w-6xl mx-auto px-4 py-20 md:py-28">
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+      <div class="fade-in">
+        <p class="text-sm font-semibold uppercase tracking-widest text-brand-orange">Nuestra historia</p>
+        <h2 class="mt-2 text-3xl md:text-5xl font-extrabold tracking-tight">Más de 15 años en La Plata</h2>
+        <p class="mt-5 text-lg text-brand-muted leading-relaxed">
+          Empezamos en 2010 como un pequeño familiar en el corazón de La Plata. Hoy seguimos con la misma pasión: comida casera, ingredientes frescos y la calidez de siempre.
+        </p>
+        <p class="mt-4 text-brand-muted leading-relaxed">
+          Cada plato que sale de nuestra cocina lleva el cuidado de recetas que pasaron de generación en generación. No somos solo un restaurante, somos tu lugar de confianza.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-6">
+          <div class="fade-in" style="transition-delay: 0.1s">
+            <p class="text-4xl font-extrabold text-brand-orange">15+</p>
+            <p class="text-sm text-brand-muted mt-1">Años de experiencia</p>
+          </div>
+          <div class="fade-in" style="transition-delay: 0.2s">
+            <p class="text-4xl font-extrabold text-brand-orange">50k+</p>
+            <p class="text-sm text-brand-muted mt-1">Clientes felices</p>
+          </div>
+          <div class="fade-in" style="transition-delay: 0.3s">
+            <p class="text-4xl font-extrabold text-brand-orange">4.9</p>
+            <p class="text-sm text-brand-muted mt-1">Rating en Google</p>
+          </div>
+        </div>
+      </div>
+      <div class="relative fade-in" style="transition-delay: 0.4s">
+        <img src="assets/gallery-interior.jpg" alt="Interior de Restaurante La Esquina" class="rounded-2xl shadow-card" />
+        <div class="absolute -bottom-6 -left-6 rounded-2xl border border-brand-border bg-brand-soft p-6 shadow-card">
+          <svg viewBox="0 0 24 24" fill="currentColor" class="h-8 w-8 text-brand-orange"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+          <p class="mt-2 font-semibold">Cocina tradicional</p>
+          <p class="text-sm text-brand-muted">Recetas de siempre</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLATOS DESTACADOS -->
+  <section class="max-w-6xl mx-auto px-4 py-20 md:py-28">
+    <div class="max-w-2xl">
+      <p class="text-sm font-semibold uppercase tracking-widest text-brand-orange">Destacados</p>
+      <h2 class="mt-2 text-3xl md:text-5xl font-extrabold tracking-tight">Platos favoritos del mes</h2>
+    </div>
+    <div class="mt-10 grid md:grid-cols-3 gap-6">
+      <a href="menu.html" class="group rounded-2xl border border-brand-border bg-brand-soft overflow-hidden shadow-card hover:border-brand-orange/50 transition fade-in" style="transition-duration: 0.7s; transition-delay: 0.1s">
+        <div class="aspect-[4/3] overflow-hidden">
+          <img src="assets/gallery-pizza.jpg" alt="Pizza casera" class="h-full w-full object-cover group-hover:scale-105 transition duration-500" />
+        </div>
+        <div class="p-5">
+          <h3 class="font-semibold text-lg">Pizza Muzzarella</h3>
+          <p class="text-sm text-brand-muted mt-1">Masa madre, salsa casera y muzzarella fresca</p>
+          <p class="mt-3 text-brand-orange font-bold">$12.500</p>
+        </div>
+      </a>
+      <a href="menu.html" class="group rounded-2xl border border-brand-border bg-brand-soft overflow-hidden shadow-card hover:border-brand-orange/50 transition fade-in" style="transition-duration: 0.7s; transition-delay: 0.2s">
+        <div class="aspect-[4/3] overflow-hidden">
+          <img src="assets/gallery-pasta.jpg" alt="Sorrentinos caseros" class="h-full w-full object-cover group-hover:scale-105 transition duration-500" />
+        </div>
+        <div class="p-5">
+          <h3 class="font-semibold text-lg">Sorrentinos de Jamón</h3>
+          <p class="text-sm text-brand-muted mt-1">Relleno casero con salsa crema y nuez</p>
+          <p class="mt-3 text-brand-orange font-bold">$14.200</p>
+        </div>
+      </a>
+      <a href="menu.html" class="group rounded-2xl border border-brand-border bg-brand-soft overflow-hidden shadow-card hover:border-brand-orange/50 transition fade-in" style="transition-duration: 0.7s; transition-delay: 0.3s">
+        <div class="aspect-[4/3] overflow-hidden">
+          <img src="assets/gallery-empanadas.jpg" alt="Empanadas criollas" class="h-full w-full object-cover group-hover:scale-105 transition duration-500" />
+        </div>
+        <div class="p-5">
+          <h3 class="font-semibold text-lg">Empanadas Criollas</h3>
+          <p class="text-sm text-brand-muted mt-1">Docena de carne, pollo o humita</p>
+          <p class="mt-3 text-brand-orange font-bold">$9.800</p>
+        </div>
+      </a>
+    </div>
+    <div class="mt-10 text-center">
+      <a href="menu.html" class="btn-hover inline-flex items-center gap-2 rounded-full border border-brand-border bg-brand-bg/50 backdrop-blur px-6 py-3 font-semibold hover:bg-brand-soft transition fade-in">
+        Ver menú completo
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" class="h-4 w-4"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- GALERÍA RÁPIDA -->
+  <section class="border-y border-brand-border/60 bg-brand-soft/40">
+    <div class="max-w-6xl mx-auto px-4 py-20 md:py-28">
+      <div class="max-w-2xl">
+        <p class="text-sm font-semibold uppercase tracking-widest text-brand-orange">Galería</p>
+        <h2 class="mt-2 text-3xl md:text-5xl font-extrabold tracking-tight">Nuestro espacio</h2>
+      </div>
+      <div class="mt-10 grid md:grid-cols-3 gap-6">
+        <a href="galeria.html" class="group rounded-2xl overflow-hidden fade-in" style="transition-duration: 0.7s; transition-delay: 0.1s">
+          <div class="aspect-square">
+            <img src="assets/gallery-interior.jpg" alt="Interior del restaurante" class="h-full w-full object-cover group-hover:scale-105 transition duration-500" />
+          </div>
+        </a>
+        <a href="galeria.html" class="group rounded-2xl overflow-hidden fade-in" style="transition-duration: 0.7s; transition-delay: 0.2s">
+          <div class="aspect-square">
+            <img src="assets/gallery-provoleta.jpg" alt="Provoleta a la parrilla" class="h-full w-full object-cover group-hover:scale-105 transition duration-500" />
+          </div>
+        </a>
+        <a href="galeria.html" class="group rounded-2xl overflow-hidden fade-in" style="transition-duration: 0.7s; transition-delay: 0.3s">
+          <div class="aspect-square">
+            <img src="assets/gallery-wine.jpg" alt="Selección de vinos" class="h-full w-full object-cover group-hover:scale-105 transition duration-500" />
+          </div>
+        </a>
+      </div>
+      <div class="mt-10 text-center">
+        <a href="galeria.html" class="btn-hover inline-flex items-center gap-2 rounded-full border border-brand-border bg-brand-bg/50 backdrop-blur px-6 py-3 font-semibold hover:bg-brand-soft transition fade-in">
+          Ver galería completa
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" class="h-4 w-4"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section id="opiniones" class="max-w-6xl mx-auto px-4 py-20 md:py-28">
+    <div class="max-w-2xl">
+      <p class="text-sm font-semibold uppercase tracking-widest text-brand-orange">Opiniones</p>
+      <h2 class="mt-2 text-3xl md:text-5xl font-extrabold tracking-tight">Lo que dicen nuestros clientes</h2>
+    </div>
+    <div class="mt-10 grid md:grid-cols-3 gap-5">
+      <figure class="fade-in rounded-2xl border border-brand-border bg-brand-soft p-6 shadow-card hover:shadow-xl hover:shadow-[0_4px_12px_rgba(249,115,22,0.15)] hover:scale-105 transition-all duration-300 cursor-pointer">
+        <div class="text-brand-orange">★★★★★</div>
+        <blockquote class="mt-3 leading-relaxed">"La mejor milanesa napolitana de La Plata. Llegó calentita y enorme. Pedí por WhatsApp y en 25 min estaba en casa."</blockquote>
+        <figcaption class="mt-4 text-sm text-brand-muted">— Martina G., La Plata</figcaption>
+      </figure>
+      <figure class="fade-in rounded-2xl border border-brand-border bg-brand-soft p-6 shadow-card hover:shadow-xl hover:shadow-[0_4px_12px_rgba(249,115,22,0.15)] hover:scale-105 transition-all duration-300 cursor-pointer">
+        <div class="text-brand-orange">★★★★★</div>
+        <blockquote class="mt-3 leading-relaxed">"Fuimos en pareja un viernes, ambiente muy lindo, atención impecable. El bife de chorizo, espectacular."</blockquote>
+        <figcaption class="mt-4 text-sm text-brand-muted">— Ezequiel R., La Plata</figcaption>
+      </figure>
+      <figure class="fade-in rounded-2xl border border-brand-border bg-brand-soft p-6 shadow-card hover:shadow-xl hover:shadow-[0_4px_12px_rgba(249,115,22,0.15)] hover:scale-105 transition-all duration-300 cursor-pointer">
+        <div class="text-brand-orange">★★★★★</div>
+        <blockquote class="mt-3 leading-relaxed">"Sorrentinos caseros como los de la abuela. Precio justo y porciones que se comparten. Volvemos seguro."</blockquote>
+        <figcaption class="mt-4 text-sm text-brand-muted">— Sofía L., La Plata</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="max-w-6xl mx-auto px-4 py-24 text-center">
+    <h2 class="text-4xl md:text-6xl font-extrabold tracking-tight">Hacé tu pedido <span class="text-gradient-orange">ahora</span></h2>
+    <p class="mt-4 text-brand-muted max-w-xl mx-auto">Te respondemos al toque por WhatsApp. Coordinás retiro o delivery en minutos.</p>
+    <a href="https://wa.me/5492211234567" target="_blank" rel="noopener"
+       class="btn-hover mt-8 inline-flex items-center gap-3 rounded-full bg-gradient-orange px-8 py-4 text-lg font-bold text-brand-bg shadow-warm fade-in">
+      Pedir por WhatsApp
+    </a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-brand-border bg-brand-soft/60">
+    <div class="max-w-6xl mx-auto px-4 py-10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-brand-muted">
+      <p>© 2026 Restaurante La Esquina · La Plata, Argentina</p>
+      <p>Calle 50 N° 765 · +54 9 221 123-4567</p>
+    </div>
+  </footer>
+
+  <!-- Floating WhatsApp -->
+  <a href="https://wa.me/5492211234567" target="_blank" rel="noopener" aria-label="WhatsApp"
+     class="fixed bottom-5 right-5 z-50 grid place-items-center h-14 w-14 rounded-full bg-whatsapp text-white shadow-warm hover:scale-110 transition">
+    <svg viewBox="0 0 24 24" fill="currentColor" class="h-7 w-7"><path d="M20.46 3.54A11.82 11.82 0 0012.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 005.69 1.45h.01c6.55 0 11.89-5.34 11.89-11.89 0-3.18-1.24-6.17-3.49-8.37zM17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15s-.77.97-.94 1.16c-.17.2-.35.22-.64.08-.3-.15-1.26-.47-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37s-1.04 1.02-1.04 2.48 1.07 2.88 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41z"/></svg>
+  </a>
+
+  <script>
+    // Scroll animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    // Observe all fade-in elements
+    document.addEventListener('DOMContentLoaded', () => {
+      const fadeElements = document.querySelectorAll('.fade-in');
+      fadeElements.forEach((el) => {
+        el.style.transitionDelay = '0s';
+        observer.observe(el);
+      });
+      
+      // Mobile menu functionality
+      const hamburger = document.getElementById('hamburger');
+      const closeMenu = document.getElementById('closeMenu');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+      
+      function toggleMobileMenu() {
+        hamburger.classList.toggle('active');
+        closeMenu.classList.toggle('active');
+        mobileMenu.classList.toggle('active');
+        mobileMenuOverlay.classList.toggle('active');
+        
+        // Prevent body scroll when menu is open
+        if (mobileMenu.classList.contains('active')) {
+          document.body.style.overflow = 'hidden';
+        } else {
+          document.body.style.overflow = '';
+        }
+      }
+      
+      hamburger.addEventListener('click', toggleMobileMenu);
+      closeMenu.addEventListener('click', toggleMobileMenu);
+      mobileMenuOverlay.addEventListener('click', toggleMobileMenu);
+      
+      // Close menu when clicking on links
+      const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+      mobileMenuLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          hamburger.classList.remove('active');
+          closeMenu.classList.remove('active');
+          mobileMenu.classList.remove('active');
+          mobileMenuOverlay.classList.remove('active');
+          document.body.style.overflow = '';
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
